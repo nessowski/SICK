@@ -3,16 +3,15 @@
 Small IRC CKlient, or SICK for short, is a small IRC client running from the terminal.
  
 
-## Features
+### Features
 
 * None! Work in progress.
  
 
-## FAQ
-
-~~no one actually asks anything, tbf~~
+### Dependencies
+* [termcolor](https://pypi.python.org/pypi/termcolor "termcolor") (included in repository)
  
 
-## Contributers
+### Contributers
 
-* Marnix "Weloxux" Massar <weloxux@glowbug.nl>
+* Marnix "Weloxux" Massar \<weloxux@glowbug.nl\>
