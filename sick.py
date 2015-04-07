@@ -13,6 +13,7 @@
 import os
 import sys
 import platform
+import socket
 from sys import stdout as stdout
 
 sys.path.append("lib")
@@ -25,19 +26,21 @@ OS = platform.system() + " " + platform.release()
 
 HEIGHT, WIDTH = os.popen('stty size', 'r').read().split()
 
+class Connection(object): # Connection with a server.
+	def __init__(self, ip, port, ssl=False):
+		self.ip = ip
+		self.port = port
+		self.ssl = ssl
+		self.chans = []
+
+def connect(ip, port ssl=False):
+	
+    
+
 def drawtopbar(width):
 
 	# First line:
-	stdout.write( colored("╔", "red", attrs=["dark"] ) )
-
-	for i in xrange(int(width) - 2):
-		mid = int(width) / 2 - 1
-		if i != mid:
-			stdout.write( colored("═", "red", attrs=["dark"] ) )
-		else:
-			stdout.write( colored("╦", "red", attrs=["dark"] ) )
-
-	stdout.write( colored("╗", "red", attrs=["dark"] ) )
+	mline("top", width)
 
 	# Second line:
 	stdout.write( colored("║", "red", attrs=["dark"] ) )
@@ -60,16 +63,24 @@ def drawtopbar(width):
 	stdout.write( colored("║", "red", attrs=["dark"] ) )
 
 	# Third line:
-        stdout.write( colored("╚", "red", attrs=["dark"] ) )
+	mline("bot", width)
+
+def mline(loc, width):
+	if loc = "top":
+		chars = ["╔", "╦", "╗"]
+	elif loc = "bot":
+		chars = ["╚", "╩", "╝"]
+
+        stdout.write( colored(chars[0], "red", attrs=["dark"] ) )
 
         for i in xrange(int(width) - 2):
                 mid = int(width) / 2 - 1
                 if i != mid:
                         stdout.write( colored("═", "red", attrs=["dark"] ) )
                 else:
-                        stdout.write( colored("╩", "red", attrs=["dark"] ) )
+                        stdout.write( colored(chars[1], "red", attrs=["dark"] ) )
 
-        stdout.write( colored("╝", "red", attrs=["dark"] ) )
+        stdout.write( colored(chars[2], "red", attrs=["dark"] ) )
 
 def main():
 	while True:
