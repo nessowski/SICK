@@ -14,6 +14,7 @@ import os
 import sys
 import platform
 import socket
+import ConfigParser
 from sys import stdout as stdout
 
 sys.path.append("lib")
@@ -22,19 +23,22 @@ from termcolor import *
 
 VERSION = "SICK alpha v0.0.1a"
 OS = platform.system() + " " + platform.release()
-
+CONNECTION = socket.socket()
 
 HEIGHT, WIDTH = os.popen('stty size', 'r').read().split()
 
-class Connection(object): # Connection with a server.
-	def __init__(self, ip, port, ssl=False):
-		self.ip = ip
-		self.port = port
-		self.ssl = ssl
-		self.chans = []
+class Settings(object):
+    def __init__(self, MAINnick, MAINuser, MAINreal):
+        self.MAINnick = MAINnick
+        self.MAINuser = MAINuser
+
 
 def connect(ip, port ssl=False):
-	
+    global CONNECTION
+
+    if not ssl:
+        s.connect(ip, port)
+        s.send(
     
 
 def drawtopbar(width):
@@ -84,16 +88,15 @@ def mline(loc, width):
 
 def main():
 	while True:
-		pass
+            pass
+
+def loadconfig():
+    configParser = ConfigParser.RawConfigParser()
+    configFilePath = "sick.conf"
 
 
 if __name__ == "__main__":
 	drawtopbar(WIDTH)
-
-	i = 0
-	while i < int(HEIGHT) - 3:
-		stdout.write("\n")
-		i += 1
 
 	main()
 
