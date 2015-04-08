@@ -31,14 +31,16 @@ class Settings(object):
     def __init__(self, MAINnick, MAINuser, MAINreal):
         self.MAINnick = MAINnick
         self.MAINuser = MAINuser
+        self.MAINreal = MAINreal
 
 
-def connect(ip, port ssl=False):
+def connect(ip, port, ssl=False):
     global CONNECTION
 
     if not ssl:
         s.connect(ip, port)
-        s.send(
+        s.send("NICK %s\r\n" % NICK)
+        s.send("USER %s %s null %s\r\n" % (settings.MAINuser, ip, settings.MAINreal) )
     
 
 def drawtopbar(width):
@@ -70,9 +72,9 @@ def drawtopbar(width):
 	mline("bot", width)
 
 def mline(loc, width):
-	if loc = "top":
+	if loc == "top":
 		chars = ["╔", "╦", "╗"]
-	elif loc = "bot":
+	elif loc == "bot":
 		chars = ["╚", "╩", "╝"]
 
         stdout.write( colored(chars[0], "red", attrs=["dark"] ) )
@@ -86,17 +88,21 @@ def mline(loc, width):
 
         stdout.write( colored(chars[2], "red", attrs=["dark"] ) )
 
-def main():
-	while True:
-            pass
-
-def loadconfig():
+def loadConfig():
     configParser = ConfigParser.RawConfigParser()
     configFilePath = "sick.conf"
+    configParser.read(configFilePath)
+    settings = Settings( configParser.get("main", "nick"), configParser.get("main", "user"), configParser.get("main", "real") )
 
+
+def main():
+    while True:
+        pass
 
 if __name__ == "__main__":
 	drawtopbar(WIDTH)
+
+        loadConfig()
 
 	main()
 
