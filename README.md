@@ -6,6 +6,7 @@ Sick IRC CKlient, or SICK for short, is a small IRC client running from the term
 ### Features
 
 * A user interface, that is currently useless. WIP!
+* A high level of customisability.
  
 
 ### Dependencies
