@@ -21,7 +21,7 @@ sys.path.append("lib")
 from termcolor import *
 
 
-VERSION = "SICK alpha v0.0.1a"
+VERSION = "SICK alpha v0.0.1b"
 OS = platform.system() + " " + platform.release()
 CONNECTION = socket.socket()
 
