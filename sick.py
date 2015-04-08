@@ -61,7 +61,7 @@ def drawtopbar(width):
 			stdout.write( colored( VERSION + " ║ " + OS, "red", attrs=["dark"] ) )
 			i += VERSION.__len__() + OS.__len__() + 4
 		elif i >= int(width):
-			pass #This can probably be done nicer
+			pass # This can probably be done nicer
 		else:
 			stdout.write(" ")
 		i += 1
@@ -88,6 +88,8 @@ def mline(loc, width):
 
         stdout.write( colored(chars[2], "red", attrs=["dark"] ) )
 
+        stdout.flush()
+
 def loadConfig():
     configParser = ConfigParser.RawConfigParser()
     configFilePath = "sick.conf"
@@ -100,10 +102,9 @@ def main():
         pass
 
 if __name__ == "__main__":
-	drawtopbar(WIDTH)
 
-        loadConfig()
+    drawtopbar(WIDTH)
 
-	main()
+    main()
 
 #EOF
