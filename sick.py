@@ -12,6 +12,7 @@
 
 import os
 import sys
+import string
 import platform
 import socket
 import ConfigParser
@@ -21,9 +22,12 @@ sys.path.append("lib")
 from termcolor import *
 
 
-VERSION = "SICK alpha v0.0.1b"
+VERSION = "SICK alpha v0.0.2"
 OS = platform.system() + " " + platform.release()
 CONNECTION = socket.socket()
+
+BUFF = ""
+settings = None
 
 HEIGHT, WIDTH = os.popen('stty size', 'r').read().split()
 
@@ -38,9 +42,9 @@ def connect(ip, port, ssl=False):
     global CONNECTION
 
     if not ssl:
-        s.connect(ip, port)
-        s.send("NICK %s\r\n" % NICK)
-        s.send("USER %s %s null %s\r\n" % (settings.MAINuser, ip, settings.MAINreal) )
+        CONNECTION.connect((ip, port))
+        CONNECTION.send("NICK %s\r\n" % settings.MAINnick)
+        CONNECTION.send("USER %s %s null %s\r\n" % (settings.MAINuser, ip, settings.MAINreal) )
     
 
 def drawtopbar(width):
@@ -91,6 +95,8 @@ def mline(loc, width):
         stdout.flush()
 
 def loadConfig():
+    global settings
+
     configParser = ConfigParser.RawConfigParser()
     configFilePath = "sick.conf"
     configParser.read(configFilePath)
@@ -98,8 +104,19 @@ def loadConfig():
 
 
 def main():
+    global BUFF, CONNECTION
+    loadConfig()
+    connect("irc.romhackersonline.com", 6667, ssl=False)
     while True:
-        pass
+        BUFF += CONNECTION.recv(2048)
+        temp = string.split(BUFF, "\n")
+        readbuffer = temp.pop()
+        print readbuffer
+        try:
+            newi = raw_input() 
+        except:
+            pass
+
 
 if __name__ == "__main__":
 
