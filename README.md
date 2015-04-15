@@ -16,4 +16,4 @@ Sick IRC CKlient, or SICK for short, is a small IRC client running from the term
 
 ### Contributers
 
-* Marnix "Weloxux" Massar \<weloxux@glowbug.nl\>
+* Marnix Massar \<weloxux@glowbug.nl\>
