@@ -37,6 +37,19 @@ class Settings(object):
         self.MAINuser = MAINuser
         self.MAINreal = MAINreal
 
+def main():
+    global BUFF, CONNECTION
+    loadConfig()
+    connect("irc.romhackersonline.com", 6667, ssl=False)
+    while True:
+        BUFF += CONNECTION.recv(2048)
+        temp = string.split(BUFF, "\n")
+        readbuffer = temp.pop()
+        print readbuffer
+        try:
+            newi = raw_input() 
+        except:
+            pass
 
 def connect(ip, port, ssl=False):
     global CONNECTION
@@ -45,7 +58,16 @@ def connect(ip, port, ssl=False):
         CONNECTION.connect((ip, port))
         CONNECTION.send("NICK %s\r\n" % settings.MAINnick)
         CONNECTION.send("USER %s %s null %s\r\n" % (settings.MAINuser, ip, settings.MAINreal) )
-    
+
+def loadConfig():
+    global settings
+
+    configParser = ConfigParser.RawConfigParser()
+    configFilePath = "sick.conf"
+    configParser.read(configFilePath)
+    settings = Settings( configParser.get("main", "nick"), configParser.get("main", "user"), configParser.get("main", "real") )
+
+
 
 def drawtopbar(width):
 
@@ -94,28 +116,7 @@ def mline(loc, width):
 
         stdout.flush()
 
-def loadConfig():
-    global settings
 
-    configParser = ConfigParser.RawConfigParser()
-    configFilePath = "sick.conf"
-    configParser.read(configFilePath)
-    settings = Settings( configParser.get("main", "nick"), configParser.get("main", "user"), configParser.get("main", "real") )
-
-
-def main():
-    global BUFF, CONNECTION
-    loadConfig()
-    connect("irc.romhackersonline.com", 6667, ssl=False)
-    while True:
-        BUFF += CONNECTION.recv(2048)
-        temp = string.split(BUFF, "\n")
-        readbuffer = temp.pop()
-        print readbuffer
-        try:
-            newi = raw_input() 
-        except:
-            pass
 
 
 if __name__ == "__main__":
