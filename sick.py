@@ -21,6 +21,8 @@ from sys import stdout as stdout
 sys.path.append("lib")
 from termcolor import *
 
+import draw
+
 
 VERSION = "SICK alpha v0.0.2"
 OS = platform.system() + " " + platform.release()
@@ -67,61 +69,9 @@ def loadConfig():
     configParser.read(configFilePath)
     settings = Settings( configParser.get("main", "nick"), configParser.get("main", "user"), configParser.get("main", "real") )
 
-
-
-def drawtopbar(width):
-
-	# First line:
-	mline("top", width)
-
-	# Second line:
-	stdout.write( colored("║", "red", attrs=["dark"] ) )
-	beginwriting = ( int(WIDTH) / 2 ) - ( VERSION.__len__() ) - 2
-
-	i = 0
-	
-	while i < int(width):
-		if i < beginwriting:
-			stdout.write(" ")
-		elif i == beginwriting:
-			stdout.write( colored( VERSION + " ║ " + OS, "red", attrs=["dark"] ) )
-			i += VERSION.__len__() + OS.__len__() + 4
-		elif i >= int(width):
-			pass # This can probably be done nicer
-		else:
-			stdout.write(" ")
-		i += 1
-	
-	stdout.write( colored("║", "red", attrs=["dark"] ) )
-
-	# Third line:
-	mline("bot", width)
-
-def mline(loc, width):
-	if loc == "top":
-		chars = ["╔", "╦", "╗"]
-	elif loc == "bot":
-		chars = ["╚", "╩", "╝"]
-
-        stdout.write( colored(chars[0], "red", attrs=["dark"] ) )
-
-        for i in xrange(int(width) - 2):
-                mid = int(width) / 2 - 1
-                if i != mid:
-                        stdout.write( colored("═", "red", attrs=["dark"] ) )
-                else:
-                        stdout.write( colored(chars[1], "red", attrs=["dark"] ) )
-
-        stdout.write( colored(chars[2], "red", attrs=["dark"] ) )
-
-        stdout.flush()
-
-
-
-
 if __name__ == "__main__":
 
-    drawtopbar(WIDTH)
+    draw.drawtopbar(WIDTH)
 
     main()
 
