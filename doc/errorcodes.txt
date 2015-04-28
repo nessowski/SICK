@@ -1,4 +1,6 @@
 List of SICK error codes:
 
-	ER-001: Server command got executed without a port specified
-	ER-002: Server command got executed without an address specified
+	ER-001: Displayed when the server command got executed without a port specified
+	ER-002: Displayed when the server command got executed without an address specified
+	ER-003: Displayed when the user issues an unknown command
+	ER-004: Displayed when the join command got executed without a channel specified
