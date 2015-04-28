@@ -1,0 +1,7 @@
+# This file contains splashes for SICK.
+# Every newline contains one splash. Comments are prefixed with a '#'.
+# Copyright Marnix Massar <weloxux@glowbug.nl> et al.
+Party like it's the fucking middle ages
+SICK actually stands for Sick IrC Klient, but don't tell anyone
+uguu uguu desu-senpai arigatou
+#Fuck, I just realised I'm not funny. Issue pull requests pl0x.
