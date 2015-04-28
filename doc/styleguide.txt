@@ -1,0 +1,7 @@
+Style guide thing:
+
+	Errors are green, and so is any mention of the word SICK, puke, or other synonyms.
+	"GUI" elements are yellow.
+	Normal text is white.
+	User attempts at colours are ignored.
+	Server messages are blue.
