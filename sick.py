@@ -12,6 +12,7 @@
 
 import os
 import sys
+import threading
 import time
 import string
 import platform
@@ -48,35 +49,83 @@ def main():
     stdout.write( colored("SICK", "green" ) )
     stdout.write( ", the client so sick it might make you toss your cookies.\n" )
     # Splash thing here.
-    stdout.write( "For help, type help." )
-    while True:
-		try:
-			newInput = raw_input("\n> ")
-		except:
-			pass
-		else:
-			if newInput == "help":
-				print( "Most important commands:")
-				print( "\tserver <ip> <port> [ssl=False] - Connects to a server" )
-				print( "\tcommands - Displays a list of all commands" )
-				print( "\texit - Exits SICK (don't use this one)" )
-			elif newInput == "exit":
-				print( "SICK is going down NOW!" )
-				time.sleep(1)
-				sys.exit()
-		
-		if CONNECTED:
-			pass
-		else:
-			pass
+    print( "For help, type help." )
+    inputThread = SICKinput()
+    inputThread.start()
+
 
 def connect(ip, port, ssl=False):
-    global CONNECTION
+    global CONNECTION, CONNECTED
+    
+    CONNECTED = True
 
     if not ssl:
-        CONNECTION.connect((ip, port))
-        CONNECTION.send("NICK %s\r\n" % settings.MAINnick)
-        CONNECTION.send("USER %s %s null :%s\r\n" % (settings.MAINuser, ip, settings.MAINreal) )
+        CONNECTION.connect( (ip, int(port) ) )
+    
+	#time.sleep(3)
+	CONNECTION.send("NICK %s\r\n" % settings.MAINnick)
+	CONNECTION.send("USER %s %s null :%s\r\n" % (settings.MAINuser, ip, settings.MAINreal) )
+
+class SICKinput( threading.Thread ):
+	def run( self ):
+		while True:
+			try:
+				newInput = raw_input( colored("> ", "yellow") )
+			except:
+				pass
+			else:
+				if newInput.startswith( "help" ):
+					print( "Most important commands:")
+					print( "\tserver <address> <port> [ssl=False] - Connects to a server (SSL will be implemented later)" )
+					print( "\tcommands - Displays a list of all commands" )
+					print( "\texit - Exits SICK (don't use this one: the ride never ends)" )
+				elif newInput.startswith( "exit" ):
+					print( "SICK is going down NOW!" )
+					time.sleep(1)
+					# TO MOTHERFUCKING DO
+
+				elif newInput.startswith( "commands" ):
+					print( "All commands: \n\thelp \n\tcommands \n\tserver \n\tjoin <channel> \n\ts <message> \n\tcs <channel> <message> \n\texit" )
+				elif newInput.startswith( "server" ):
+					listed = newInput.split( " " )
+					try:
+						listed[1]
+					except:
+						print( colored( "ER-002: No server address specified.", "green" ) )
+					else:
+						try:
+							listed[2]
+						except:
+							print( colored( "ER-001: No server port specified.", "green" ) )
+						else:
+							connect( listed[1], listed[2] )
+							
+							outputThread = SICKoutput()
+							outputThread.start()
+				elif newInput.startswith( "join" ):
+					listed = newInput.split( " " )
+					try:
+						listed[1]
+					except:
+						print( colored( "ER-004: No channel specified.", "green" ) )
+					else:
+						if not listed[1].startswith( "#" ):
+							CONNECTION.send( "JOIN %s" % listed[1] )
+						else:
+							CONNECTION.send( "JOIN #%s" % listed[1] )
+				else:
+					print( colored( "ER-003: Unknown command.", "green" ) )
+
+class SICKoutput( threading.Thread ):
+	def run( self ):
+		while True:
+			if CONNECTED:
+				get = CONNECTION.recv(2048)
+				if get.startswith( "PING" ):
+					get.split( " " )
+					CONNECTION.send( "PONG %s" % get[1] )
+				print get
+
 
 def loadConfig():
     global settings
