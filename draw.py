@@ -26,7 +26,7 @@ def drawtopbar(width):
 	mline("top", width)
 
 	# Second line:
-	stdout.write( colored("║", "red", attrs=["dark"] ) )
+	stdout.write( colored("║", "yellow" ) )
 	beginwriting = ( int(width) / 2 ) - ( VERSION.__len__() ) - 2
 
 	i = 0
@@ -35,7 +35,7 @@ def drawtopbar(width):
 		if i < beginwriting:
 			stdout.write(" ")
 		elif i == beginwriting:
-			stdout.write( colored( VERSION + " ║ " + OS, "red", attrs=["dark"] ) )
+			stdout.write( colored( VERSION + " ║ " + OS, "yellow" ) )
 			i += VERSION.__len__() + OS.__len__() + 4
 		elif i >= int(width):
 			pass # This can probably be done nicer
@@ -43,7 +43,7 @@ def drawtopbar(width):
 			stdout.write(" ")
 		i += 1
 	
-	stdout.write( colored("║", "red", attrs=["dark"] ) )
+	stdout.write( colored("║", "yellow" ) )
 
 	# Third line:
 	mline("bot", width)
@@ -54,15 +54,15 @@ def mline(loc, width):
 	elif loc == "bot":
 		chars = ["╚", "╩", "╝"]
 
-        stdout.write( colored(chars[0], "red", attrs=["dark"] ) )
+        stdout.write( colored(chars[0], "yellow" ) )
 
         for i in xrange(int(width) - 2):
                 mid = int(width) / 2 - 1
                 if i != mid:
-                        stdout.write( colored("═", "red", attrs=["dark"] ) )
+                        stdout.write( colored("═", "yellow" ) )
                 else:
-                        stdout.write( colored(chars[1], "red", attrs=["dark"] ) )
+                        stdout.write( colored(chars[1], "yellow" ) )
 
-        stdout.write( colored(chars[2], "red", attrs=["dark"] ) )
+        stdout.write( colored(chars[2], "yellow" ) )
 
         stdout.flush()
