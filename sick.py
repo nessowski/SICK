@@ -12,6 +12,7 @@
 
 import os
 import sys
+import time
 import string
 import platform
 import socket
@@ -27,6 +28,7 @@ import draw
 VERSION = "SICK alpha v0.0.2"
 OS = platform.system() + " " + platform.release()
 CONNECTION = socket.socket()
+CONNECTED = False
 
 BUFF = ""
 settings = None
@@ -42,16 +44,31 @@ class Settings(object):
 def main():
     global BUFF, CONNECTION
     loadConfig()
-    connect("irc.romhackersonline.com", 6667, ssl=False)
+    stdout.write( "Welcome to " )
+    stdout.write( colored("SICK", "green" ) )
+    stdout.write( ", the client so sick it might make you toss your cookies.\n" )
+    # Splash thing here.
+    stdout.write( "For help, type help." )
     while True:
-        BUFF += CONNECTION.recv(2048)
-        temp = string.split(BUFF, "\n")
-        readbuffer = temp.pop()
-        print readbuffer
-        try:
-            newi = raw_input() 
-        except:
-            pass
+		try:
+			newInput = raw_input("\n> ")
+		except:
+			pass
+		else:
+			if newInput == "help":
+				print( "Most important commands:")
+				print( "\tserver <ip> <port> [ssl=False] - Connects to a server" )
+				print( "\tcommands - Displays a list of all commands" )
+				print( "\texit - Exits SICK (don't use this one)" )
+			elif newInput == "exit":
+				print( "SICK is going down NOW!" )
+				time.sleep(1)
+				sys.exit()
+		
+		if CONNECTED:
+			pass
+		else:
+			pass
 
 def connect(ip, port, ssl=False):
     global CONNECTION
@@ -59,7 +76,7 @@ def connect(ip, port, ssl=False):
     if not ssl:
         CONNECTION.connect((ip, port))
         CONNECTION.send("NICK %s\r\n" % settings.MAINnick)
-        CONNECTION.send("USER %s %s null %s\r\n" % (settings.MAINuser, ip, settings.MAINreal) )
+        CONNECTION.send("USER %s %s null :%s\r\n" % (settings.MAINuser, ip, settings.MAINreal) )
 
 def loadConfig():
     global settings
